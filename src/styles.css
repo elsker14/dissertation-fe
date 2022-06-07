@@ -667,7 +667,7 @@ label.date{
   -o-transform:rotate(45deg);
   transform:rotate(45deg)
 }
-option:first{
+option:page-wrapperfirst{
   color:#ccc
 }
 select{
