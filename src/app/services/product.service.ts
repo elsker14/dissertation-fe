@@ -42,6 +42,15 @@ export class ProductService {
       map(response => response._embedded.products)
     );
   }
+
+  getProduct(theProductId: number): Observable<Product>{
+    // build URL based on the keyword
+    const productUrl = `${this.baseUrl}/${theProductId}`;
+
+    // we dont need to map anything bc this endpoint is out of the box from SpringBoot, no implementation needed
+    return this.httpClient.get<Product>(productUrl);
+  }
+
 }
 
 interface GetResponseProducts {
