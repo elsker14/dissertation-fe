@@ -10,6 +10,7 @@ import {Routes, RouterModule} from "@angular/router";
 import { ProductCategoryMenuComponent } from './components/product-category-menu/product-category-menu.component';
 import { SearchComponent } from './components/search/search.component';
 import { ProductDetailsComponent } from './components/product-details/product-details.component';
+import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 const routes: Routes = [
   {path: 'products/:id/:catId', component:ProductDetailsComponent},
@@ -33,7 +34,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
@@ -45,4 +47,6 @@ Info:
   Daca punem ProductService in Provider ne va permite sa folosim si in alte parti clasa.
 
   Ceea ce am facut aici a fost sa scriem rutele posibile de URL-uri si sa le adaugam pentru a putea fi folosite peste tot.
+
+  Punand NgbModule in imports expunem declaratia lui si facem sa fie disponibil in modulul curent
  */
