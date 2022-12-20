@@ -92,10 +92,24 @@ export class CheckoutComponent implements OnInit {
         ])
       }),
       creditCard: this.formBuilder.group({
-        cardType: [''],
-        nameOnCard: [''],
-        cardNumber: [''],
-        securityCode: [''],
+        cardType: new FormControl('', [
+          Validators.required
+        ]),
+        nameOnCard: new FormControl('', [
+          Validators.required,
+          Validators.minLength(2),
+          Luv2ShopValidators.notOnlyWhitespace
+        ]),
+        cardNumber: new FormControl('', [
+          Validators.required,
+          Validators.pattern('[0-9]{16}'),
+          Luv2ShopValidators.notOnlyWhitespace
+        ]),
+        securityCode: new FormControl('', [
+          Validators.required,
+          Validators.pattern('[0-9]{3}'),
+          Luv2ShopValidators.notOnlyWhitespace
+        ]),
         expirationMonth: [''],
         expirationYear: ['']
       })
@@ -260,5 +274,21 @@ export class CheckoutComponent implements OnInit {
 
   get billingAddressCountry() {
     return this.checkoutFormGroup.get('billingAddress.country');
+  }
+
+  get creditCardType() {
+    return this.checkoutFormGroup.get('creditCard.cardType');
+  }
+
+  get creditCardNameOnCard() {
+    return this.checkoutFormGroup.get('creditCard.nameOnCard');
+  }
+
+  get creditCardNumber() {
+    return this.checkoutFormGroup.get('creditCard.cardNumber');
+  }
+
+  get creditCardSecurityCode() {
+    return this.checkoutFormGroup.get('creditCard.securityCode');
   }
 }
