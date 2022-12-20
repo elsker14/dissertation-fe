@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {CartItem} from "../common/cart-item";
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +15,8 @@ export class CartService {
    * We can use Subject to publish events in our code.
    * The event will be sent to all the subscribers.
    */
-  totalPrice: Subject<number> = new Subject<number>();
-  totalQuantity: Subject<number> = new Subject<number>();
+  totalPrice: Subject<number> = new BehaviorSubject<number>(0);
+  totalQuantity: Subject<number> = new BehaviorSubject<number>(0);
 
   constructor() {
   }
@@ -38,7 +38,7 @@ export class CartService {
       alreadyExistsInCart = (existingCartItem != undefined);
     }
 
-    if(alreadyExistsInCart) {
+    if (alreadyExistsInCart) {
       // increment quantity
       existingCartItem.quantity++;
     } else {
@@ -54,7 +54,7 @@ export class CartService {
     let totalPriceValue: number = 0;
     let totalQuantityValue: number = 0;
 
-    for(let currentCartItem of this.cartItems) {
+    for (let currentCartItem of this.cartItems) {
       totalPriceValue += currentCartItem.quantity * currentCartItem.unitPrice;
       totalQuantityValue += currentCartItem.quantity;
     }
@@ -70,7 +70,7 @@ export class CartService {
   logCartData(totalPriceValue: number, totalQuantityValue: number) {
     console.log('-----------------')
     console.log('Contents of the cart');
-    for(let tempCartItem of this.cartItems) {
+    for (let tempCartItem of this.cartItems) {
       const subTotalPrice = tempCartItem.quantity * tempCartItem.unitPrice;
       console.log(`name= ${tempCartItem.name}, quantity= ${tempCartItem.quantity}, unitPrice= ${tempCartItem.unitPrice}, subTotalPrice= ${subTotalPrice}`);
     }
@@ -82,7 +82,7 @@ export class CartService {
   decrementQuantity(theCartItem: CartItem) {
     theCartItem.quantity--;
 
-    if(theCartItem.quantity === 0) {
+    if (theCartItem.quantity === 0) {
       this.remove(theCartItem);
     } else {
       this.computeCartTotal();
@@ -96,7 +96,7 @@ export class CartService {
     );
 
     // if found, remove the item from the array at the given index
-    if(itemIndex > -1) {
+    if (itemIndex > -1) {
       this.cartItems.splice(itemIndex, 1);
 
       this.computeCartTotal();
