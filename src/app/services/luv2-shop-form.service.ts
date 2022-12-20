@@ -9,7 +9,7 @@ export class Luv2ShopFormService {
   constructor() { }
 
   getCreditCardMonths(startMonth: number): Observable<number[]> {
-
+    //todo: pune toate lunile, nu doar luna curenta
     let data: number[] = []
 
     // build an array for Month dropdown list
