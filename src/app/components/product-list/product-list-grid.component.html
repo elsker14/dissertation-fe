@@ -2,14 +2,14 @@
 
   <div class="section-content section-content-p30">
 
-    <h4 data-test="category-name">Category: {{ currentCategoryName }}</h4>
+    <h4>Category: {{ currentCategoryName }}</h4>
     <hr>
 
-    <div class="container-fluid" data-test="products-list">
+    <div class="container-fluid">
       <div class="row">
 
         <!-- loop over the collection of products -->
-        <div data-test="product-elements" *ngFor="let tempProduct of products" class="col-md-3">
+        <div *ngFor="let tempProduct of products" class="col-md-3">
 
           <div class="product-box">
             <a routerLink="/products/{{tempProduct.id}}/{{currentCategoryId}}">
