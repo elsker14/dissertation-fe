@@ -28,6 +28,8 @@ export class CheckoutComponent implements OnInit {
   creditCardYears: number[] = [];
   countries: Country[] = []
 
+  storage: Storage = sessionStorage;
+
 
   constructor(private formBuilder: FormBuilder,
               private luv2ShopFormService: Luv2ShopFormService,
@@ -39,6 +41,9 @@ export class CheckoutComponent implements OnInit {
   ngOnInit(): void {
 
     this.reviewCartDetails();
+
+    // read the user's email address from browser storage
+    const theEmail = JSON.parse(this.storage.getItem('userEmail')!);
 
     this.checkoutFormGroup = this.formBuilder.group({
       customer: this.formBuilder.group({
@@ -52,7 +57,7 @@ export class CheckoutComponent implements OnInit {
           Validators.minLength(2),
           Luv2ShopValidators.notOnlyWhitespace
         ]),
-        email: new FormControl('', [
+        email: new FormControl(theEmail, [
           Validators.required,
           Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
         ]),
@@ -185,13 +190,13 @@ export class CheckoutComponent implements OnInit {
     // create orderItems from cartItems
     // - long way
     /**
-    let orderItems: OrderItem[] = [];
-    for(let i = 0; i < cartItems.length; i++) {
+     let orderItems: OrderItem[] = [];
+     for(let i = 0; i < cartItems.length; i++) {
       orderItems[i] = new OrderItem(cartItems[i]);
     }
-    */
+     */
 
-    // - short way
+      // - short way
     let orderItems: OrderItem[] = cartItems.map(tempCartItems => new OrderItem(tempCartItems));
 
     // set up purchase
