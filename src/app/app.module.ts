@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {Injector, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -6,7 +6,7 @@ import {AppComponent} from './app.component';
 import {ProductListComponent} from './components/product-list/product-list.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ProductService} from "./services/product.service";
-import {Routes, RouterModule} from "@angular/router";
+import {Routes, RouterModule, Router} from "@angular/router";
 import {ProductCategoryMenuComponent} from './components/product-category-menu/product-category-menu.component';
 import {SearchComponent} from './components/search/search.component';
 import {ProductDetailsComponent} from './components/product-details/product-details.component';
@@ -20,16 +20,18 @@ import {LoginStatusComponent} from './components/login-status/login-status.compo
 import {
   OktaAuthModule,
   OktaCallbackComponent,
-  OKTA_CONFIG
+  OKTA_CONFIG, OktaAuthGuard
 } from "@okta/okta-angular";
 import {OktaAuth} from "@okta/okta-auth-js";
 import myAppConfig from "./config/my-app-config";
+import { MembersPageComponent } from './components/members-page/members-page.component';
 
 const oktaConfig = myAppConfig.oidc;
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
 const routes: Routes = [
+  {path: 'members', component: MembersPageComponent, canActivate: [OktaAuthGuard], data: {onAuthRequired: sendToLoginPage}},
   {path: 'login/callback', component: OktaCallbackComponent},
   {path: 'login', component: LoginComponent},
   {path: 'checkout', component: CheckoutComponent},
@@ -43,6 +45,14 @@ const routes: Routes = [
   {path: '**', redirectTo: '/products', pathMatch: 'full'}
 ];
 
+function sendToLoginPage(oktaAuth: OktaAuth, injector: Injector) {
+  // Use injector to access any service available within your application
+  const router = injector.get(Router);
+
+  // Redirect the user to your custom login page
+  router.navigate(['/login']);
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,7 +64,8 @@ const routes: Routes = [
     CartDetailsComponent,
     CheckoutComponent,
     LoginComponent,
-    LoginStatusComponent
+    LoginStatusComponent,
+    MembersPageComponent
   ],
   imports: [
     RouterModule.forRoot(routes),
