@@ -18,7 +18,6 @@ export class ProductService {
   }
 
   getProductCategories(): Observable<ProductCategory[]> {
-
     return this.httpClient.get<GetResponseProductCategory>(this.categoryUrl).pipe(
       map(response => response._embedded.productCategory)
     );
@@ -38,7 +37,7 @@ export class ProductService {
   }
 
   getProductList(theCategoryId: number): Observable<Product[]> {
-    // build URL based on category Id
+    // build URL based on category id
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
 
     return this.getProducts(searchUrl);
@@ -72,7 +71,7 @@ export class ProductService {
     // build URL based on the keyword
     const productUrl = `${this.baseUrl}/${theProductId}`;
 
-    // we dont need to map anything bc this endpoint is out of the box from SpringBoot, no implementation needed
+    // we don't need to map anything bc this endpoint is out of the box from SpringBoot, no implementation needed
     return this.httpClient.get<Product>(productUrl);
   }
 
